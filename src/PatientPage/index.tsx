@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Icon } from '@material-ui/core';
 import { apiBaseUrl } from '../constants';
 import { useStateValue } from "../state";
 import { Patient } from '../types';
+import GenderIcon from './GenderIcon';
 
 const PatientPage = () => {
   const [{ focused }, dispatch] = useStateValue();
@@ -32,12 +32,27 @@ const PatientPage = () => {
   if (!focused || focused.id !== id) {
     return null;
   }
-  const { name } = focused;
+  const { name, gender, ssn, occupation } = focused;
 
   return (
     <div className="App">
-      <h2>{name}</h2>
-      <Icon />
+      <div style={{
+        display: 'flex',
+        alignItems: 'center'
+      }}>
+        <h2 style={{
+          marginRight: '1rem'
+        }}>{name}</h2>
+        <GenderIcon gender={gender} />
+      </div>
+      <div>
+        <p>
+          ssh: {ssn}
+        </p>
+        <p>
+          occupation: {occupation}
+        </p>
+      </div>
     </div>
   );
 };
