@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../constants';
-import { useStateValue } from "../state";
+import { useStateValue, setFocusedPatient } from "../state";
 import { Patient } from '../types';
 import GenderIcon from './GenderIcon';
 
@@ -20,7 +20,7 @@ const PatientPage = () => {
             // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `${apiBaseUrl}/patients/${id}`
           );
-          dispatch({ type: "SET_FOCUSED_PATIENT", payload: patientFromApi });
+          dispatch(setFocusedPatient(patientFromApi));
         } catch (e) {
           console.error(e);
         }
