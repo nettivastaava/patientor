@@ -5,6 +5,7 @@ import { apiBaseUrl } from '../constants';
 import { useStateValue, setFocusedPatient } from "../state";
 import { Patient } from '../types';
 import GenderIcon from './GenderIcon';
+import EntriesList from './EntriesList';
 
 const PatientPage = () => {
   const [{ focused }, dispatch] = useStateValue();
@@ -52,6 +53,7 @@ const PatientPage = () => {
         <p>
           occupation: {occupation}
         </p>
+        <EntriesList entries={focused.entries} />
       </div>
     </div>
   );
