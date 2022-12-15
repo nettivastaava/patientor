@@ -1,7 +1,10 @@
 import React from 'react';
+import { useStateValue } from '../state';
 import { Entry } from '../types';
 
 const EntriesList = ({ entries }: { entries: Entry[] }) => {
+  const [{ diagnoses }, ] = useStateValue();
+
   return (
     <div>
       <h3>entries</h3>
@@ -10,7 +13,7 @@ const EntriesList = ({ entries }: { entries: Entry[] }) => {
             <p>{entry.date} {entry.description}</p>
             <ul>
               {entry.diagnosisCodes?.map(code => (
-                <li key={code}>{code}</li>
+                <li key={code}>{code} {diagnoses[code].name}</li>
               ))}
             </ul>
           </div>
