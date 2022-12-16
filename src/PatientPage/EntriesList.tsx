@@ -1,21 +1,20 @@
-import React from 'react';
-import { useStateValue } from '../state';
 import { Entry } from '../types';
+import EntryDetails from './EntryDetails';
 
 const EntriesList = ({ entries }: { entries: Entry[] }) => {
-  const [{ diagnoses }, ] = useStateValue();
 
   return (
     <div>
       <h3>entries</h3>
         {entries.map(entry => (
-          <div key={entry.id}>
-            <p>{entry.date} {entry.description}</p>
-            <ul>
-              {entry.diagnosisCodes?.map(code => (
-                <li key={code}>{code} {diagnoses[code].name}</li>
-              ))}
-            </ul>
+          <div key={entry.id} style={{ 
+            borderWidth: '2px', 
+            borderStyle: 'solid', 
+            borderColor: 'black', 
+            borderRadius: '10px',
+            marginBottom: '.5rem' 
+          }}>
+            <EntryDetails entry={entry} />
           </div>
         ))}
     </div>
