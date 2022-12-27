@@ -6,6 +6,12 @@ import { useStateValue } from '../../state';
 const HospitalEntryComponent = ({ entry }: { entry: HospitalEntry}) => {
   const [{ diagnoses }, ] = useStateValue();
 
+  const getCodeDescription = (code: string) => {
+    const diagnosis = diagnoses.find(diagnosis => diagnosis.code === code);
+
+    return diagnosis?.name;
+  };
+
   return (
     <div style={{ marginLeft: '.5rem' }}>
       <p>
@@ -16,7 +22,7 @@ const HospitalEntryComponent = ({ entry }: { entry: HospitalEntry}) => {
       </p>
       <ul>
         {entry.diagnosisCodes?.map(code => (
-          <li key={code}>{code} {diagnoses[code].name}</li>
+          <li key={code}>{code} {getCodeDescription(code)}</li>
         ))}
       </ul>
       {entry.discharge && (

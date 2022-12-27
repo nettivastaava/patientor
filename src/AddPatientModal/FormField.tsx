@@ -17,11 +17,16 @@ export type GenderOption = {
   label: string;
 };
 
+export type TypeOption = {
+  value: number,
+  label: string
+};
+
 // props for select field component
 type SelectFieldProps = {
   name: string;
   label: string;
-  options: GenderOption[];
+  options: GenderOption[] | TypeOption[];
 };
 
 const FormikSelect = ({ field, ...props }: FieldProps) => <Select {...field} {...props} />;
