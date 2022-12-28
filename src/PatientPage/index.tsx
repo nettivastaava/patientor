@@ -47,13 +47,12 @@ const PatientPage = () => {
   };
 
   React.useEffect(() => {
-    if (!focused || focused.id !== id) {
+    if ((!focused || focused.id !== id) && id) {
       void axios.get<void>(`${apiBaseUrl}/ping`);
 
       const fetchFocusedPatient = async () => {
         try {
           const { data: patientFromApi } = await axios.get<Patient>(
-            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
             `${apiBaseUrl}/patients/${id}`
           );
           dispatch(setFocusedPatient(patientFromApi));
