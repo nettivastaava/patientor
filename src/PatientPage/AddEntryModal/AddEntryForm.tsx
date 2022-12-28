@@ -3,11 +3,11 @@ import { Grid, Button } from "@material-ui/core";
 import { Field, Formik, Form } from "formik";
 
 import { TextField, SelectField, DiagnosisSelection, TypeOption } from '../../AddPatientModal/FormField';
-import { Entry } from '../../types';
+import { HealthCheckEntry } from '../../types';
 import { useStateValue } from '../../state';
 
 
-export type EntryFormValues = Omit<Entry, "id" | "type">;
+export type EntryFormValues = Omit<HealthCheckEntry, "id">;
 
 
 interface Props {
@@ -28,11 +28,12 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props)  => {
   return (
     <Formik
       initialValues={{
+        type: "HealthCheck",
         description: "",
         specialist: "",
         date: "",
         diagnosisCodes: [],
-        healthCheckRating: 0
+        healthCheckRating: 1
       }}
       onSubmit={onSubmit}
       validate={(values) => {
@@ -50,15 +51,18 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props)  => {
         if (!values.diagnosisCodes) {
           errors.diagnosisCodes = requiredError;
         }
-        if (!values.healthCheckRating) {
-          errors.healthCheckRating = requiredError;
-        }
         return errors;
       }}
     >
-      {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
+      {({ isValid, setFieldValue, setFieldTouched }) => {
         return (
           <Form className="form ui">
+            <Field
+              label="Date"
+              placeholder="DD-MM-YYYY"
+              name="date"
+              component={TextField}
+            />
             <Field
               label="Description"
               placeholder="Description"
@@ -96,7 +100,7 @@ export const AddEntryForm = ({ onSubmit, onCancel }: Props)  => {
                   }}
                   type="submit"
                   variant="contained"
-                  disabled={!dirty || !isValid}
+                  disabled={!isValid}
                 >
                   Add
                 </Button>
