@@ -12,7 +12,7 @@ import AddEntryModal from './AddEntryModal';
 
 const PatientPage = () => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const [{ focused, diagnoses }, dispatch] = useStateValue();
+  const [{ focused }, dispatch] = useStateValue();
   const { id } = useParams<{ id: string }>();
   const [error, setError] = React.useState<string>();
 
@@ -22,8 +22,6 @@ const PatientPage = () => {
     setModalOpen(false);
     setError(undefined);
   };
-
-  console.log('diag ', diagnoses);
 
   const submitNewEntry = async (values: EntryFormValues) => {
     try {
@@ -38,7 +36,7 @@ const PatientPage = () => {
     } catch (e: unknown) {
       if (axios.isAxiosError(e)) {
         console.error(e?.response?.data || "Unrecognized axios error");
-        setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+        setError(String(e?.response?.data) || "Unrecognized axios error");
       } else {
         console.error("Unknown error", e);
         setError("Unknown error");
