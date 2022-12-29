@@ -6,7 +6,6 @@ import { Gender } from '../types';
 
 
 const GenderIcon = ({ gender }: { gender: Gender}) => {
-  console.log(gender);
   if (gender === 'male') {
     return <MaleIcon />;
   } else if (gender === 'female') {

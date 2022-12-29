@@ -1,116 +1,60 @@
-import React from 'react';
-import { Grid, Button } from "@material-ui/core";
-import { Field, Formik, Form } from "formik";
+import React, { useState } from 'react';
+import { Radio } from '@material-ui/core';
+import { newEntry } from '../../types';
+import HealthCheckForm from './HealthCheckForm';
+import HospitalForm from './HospitalForm';
+import OccupationalHealthcareForm from './OccupationalHealthcareForm';
 
-import { TextField, SelectField, DiagnosisSelection, TypeOption } from '../../AddPatientModal/FormField';
-import { HealthCheckEntry } from '../../types';
-import { useStateValue } from '../../state';
-
-
-export type EntryFormValues = Omit<HealthCheckEntry, "id">;
-
-
-interface Props {
-  onSubmit: (values: EntryFormValues) => void;
+export interface Props {
+  onSubmit: (values: newEntry) => void;
   onCancel: () => void;
 }
 
-const healthCheckRatingOptions: TypeOption[] = [
-  { value: 0, label: "Healthy" },
-  { value: 1, label: "Low risk" },
-  { value: 2, label: "High risk" },
-  { value: 3, label: "Critical risk"}
-];
-
 export const AddEntryForm = ({ onSubmit, onCancel }: Props)  => {
-  const [{ diagnoses }, ] = useStateValue();
-
-  return (
-    <Formik
-      initialValues={{
-        type: "HealthCheck",
-        description: "",
-        specialist: "",
-        date: "",
-        diagnosisCodes: [],
-        healthCheckRating: 1
-      }}
-      onSubmit={onSubmit}
-      validate={(values) => {
-        const requiredError = "Field is required";
-        const errors: { [field: string]: string } = {};
-        if (!values.description) {
-          errors.description = requiredError;
-        }
-        if (!values.specialist) {
-          errors.specialist = requiredError;
-        }
-        if (!values.date) {
-          errors.date = requiredError;
-        }
-        if (!values.diagnosisCodes) {
-          errors.diagnosisCodes = requiredError;
-        }
-        return errors;
-      }}
-    >
-      {({ isValid, setFieldValue, setFieldTouched }) => {
-        return (
-          <Form className="form ui">
-            <Field
-              label="Date"
-              placeholder="DD-MM-YYYY"
-              name="date"
-              component={TextField}
-            />
-            <Field
-              label="Description"
-              placeholder="Description"
-              name="description"
-              component={TextField}
-            />
-            <Field
-              label="Specialist"
-              placeholder="Specialist"
-              name="specialist"
-              component={TextField}
-            />
-            <DiagnosisSelection 
-              diagnoses={diagnoses}
-              setFieldValue={setFieldValue} 
-              setFieldTouched={setFieldTouched}
-            />
-            <SelectField label="Health check rating" name="healthCheckRating" options={healthCheckRatingOptions} />
-            <Grid>
-              <Grid item>
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  style={{ float: "left" }}
-                  type="button"
-                  onClick={onCancel}
-                >
-                  Cancel
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button
-                  style={{
-                    float: "right",
-                  }}
-                  type="submit"
-                  variant="contained"
-                  disabled={!isValid}
-                >
-                  Add
-                </Button>
-              </Grid>
-            </Grid>
-          </Form>
-        );
-      }}
-    </Formik>
-  );
+  const [shownForm, setShownForm] = useState('HealthCheck');
+  
+    return (
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <span>
+          <Radio
+            checked={shownForm === 'HealthCheck'}
+            onChange={() => setShownForm("HealthCheck")}
+            value="HealthCheck"
+            inputProps={{ 'aria-label': 'A' }}
+          />
+          Health check
+        </span>
+        <span>
+          <Radio
+            checked={shownForm === 'Hospital'}
+            onChange={() => setShownForm("Hospital")}
+            value="Hospital"
+            inputProps={{ 'aria-label': 'B' }}
+          />
+          Hospital
+        </span>
+        <span>
+          <Radio
+            checked={shownForm === 'OccupationalHealthcare'}
+            onChange={() => setShownForm("OccupationalHealthcare")}
+            value="OccupationalHealthcare"
+            inputProps={{ 'aria-label': 'B' }}
+          />
+          Occupational healthcare
+        </span>
+        </div>
+        {shownForm === "HealthCheck" ? (
+          <HealthCheckForm onSubmit={onSubmit} onCancel={onCancel} />
+        ) : shownForm === "Hospital" ? (
+          <HospitalForm onSubmit={onSubmit} onCancel={onCancel} />
+        ) : (
+          <OccupationalHealthcareForm onSubmit={onSubmit} onCancel={onCancel} />
+        )}
+      </div>
+    );
+    
+    
 };
 
 export default AddEntryForm;

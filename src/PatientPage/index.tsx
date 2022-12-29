@@ -4,8 +4,7 @@ import { Button } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import { apiBaseUrl } from '../constants';
 import { useStateValue, setFocusedPatient, addEntry } from "../state";
-import { EntryFormValues } from './AddEntryModal/AddEntryForm';
-import { Patient } from '../types';
+import { newEntry, Patient } from '../types';
 import GenderIcon from './GenderIcon';
 import EntriesList from './EntriesList';
 import AddEntryModal from './AddEntryModal';
@@ -23,7 +22,7 @@ const PatientPage = () => {
     setError(undefined);
   };
 
-  const submitNewEntry = async (values: EntryFormValues) => {
+  const submitNewEntry = async (values: newEntry) => {
     try {
       if (id) {
         const { data: updatedPatient } = await axios.post<Patient>(
